@@ -208,7 +208,7 @@
                 team.push(getTeamAttributes());
                 console.log(applicants);
                 console.log(team);
-                //$('form').trigger('reset');
+                $('form').trigger('reset');
 
                 let bestPossiblePoints = 40;
                 let intelligenceScore = 0;
@@ -220,6 +220,10 @@
                     strengthScore += parseInt(applicants[i].strength);
                     enduranceScore += parseInt(applicants[i].endurance);
                     toleranceScore += parseInt(applicants[i].spicyFoodTolerance);
+                    if ($('#applicantInput').val() == '') {
+                        alert('Please fill out the applicants name');
+                        return;
+                    };
                 };
                 var applicantScore = (intelligenceScore + strengthScore + enduranceScore + toleranceScore) / bestPossiblePoints;
 
@@ -232,16 +236,20 @@
                     teamStrengthScore += parseInt(applicants[i].strength);
                     teamEnduranceScore += parseInt(applicants[i].endurance);
                     teamToleranceScore += parseInt(applicants[i].spicyFoodTolerance);
+                    if ($('#applicantInput').val() == '') {
+                        alert('Please fill out the team members name');
+                        return;
+                    };
                 };
 
                 var teamScore = (teamIntelligenceScore + teamStrengthScore + teamEnduranceScore + teamToleranceScore) / bestPossiblePoints;
 
 
                 $("#applicants").append("<li>" + "<span>" + "Applicant's name:" + " " + applicants[counter].name + " " +
-                    "</span>" + "<span>" + " " + "Applicant's score:" + applicantScore + "</span>" + "</li>")
+                    "</span>" + "<span>" + " " + "Applicant's score:" + applicantScore + "</span>" + "<button type=button id=deleteBtn > x </button>" + "</li>")
 
                 $("#team").append("<li>" + "<span>" + "Team member's name:" + " " + team[counter].name + " " +
-                    "</span>" + "<span>" + " " + "Team member's score:" + teamScore + "</span>" + "</li>")
+                    "</span>" + "<span>" + " " + "Team member's score:" + teamScore + "</span>" + "<button type=button id=deleteBtn > x </button>" + "</li>")
                 counter += 1;
             };
 
@@ -268,9 +276,6 @@
                 }
                 return teamData;
             };
-
-
-
         </script>
     </body>
 
