@@ -201,6 +201,8 @@
             var counter = 0;
             $(document).ready(function () {
                 $("#addApplicantBtn").on("click", calculateScore);
+                $("#applicants").on("click", "#removeApplicant", deleteApplicants);
+                $("#team").on("click", "#removeTeam", deleteTeam)
             });
 
             function calculateScore() {
@@ -220,11 +222,8 @@
                     strengthScore += parseInt(applicants[i].strength);
                     enduranceScore += parseInt(applicants[i].endurance);
                     toleranceScore += parseInt(applicants[i].spicyFoodTolerance);
-                    if ($('#applicantInput').val() == '') {
-                        alert('Please fill out the applicants name');
-                        return;
-                    };
                 };
+
                 var applicantScore = (intelligenceScore + strengthScore + enduranceScore + toleranceScore) / bestPossiblePoints;
 
                 let teamIntelligenceScore = 0;
@@ -236,21 +235,18 @@
                     teamStrengthScore += parseInt(applicants[i].strength);
                     teamEnduranceScore += parseInt(applicants[i].endurance);
                     teamToleranceScore += parseInt(applicants[i].spicyFoodTolerance);
-                    if ($('#applicantInput').val() == '') {
-                        alert('Please fill out the team members name');
-                        return;
-                    };
                 };
 
                 var teamScore = (teamIntelligenceScore + teamStrengthScore + teamEnduranceScore + teamToleranceScore) / bestPossiblePoints;
 
 
                 $("#applicants").append("<li>" + "<span>" + "Applicant's name:" + " " + applicants[counter].name + " " +
-                    "</span>" + "<span>" + " " + "Applicant's score:" + applicantScore + "</span>" + "<button type=button id=deleteBtn > x </button>" + "</li>")
+                    "</span>" + "<span>" + " " + "Applicant's score:" + applicantScore + "</span>" + "<button type='button' class='btn btn-danger' id='removeApplicant' > x </button>" + '</li>')
 
                 $("#team").append("<li>" + "<span>" + "Team member's name:" + " " + team[counter].name + " " +
-                    "</span>" + "<span>" + " " + "Team member's score:" + teamScore + "</span>" + "<button type=button id=deleteBtn > x </button>" + "</li>")
+                    "</span>" + "<span>" + " " + "Team member's score:" + teamScore + "</span>" + "<button type='button' class='btn btn-danger' id='removeTeam' > x </button>" + '</li>')
                 counter += 1;
+
             };
 
             function getApplicantAttributes() {
@@ -275,6 +271,14 @@
                     counter: counter
                 }
                 return teamData;
+            };
+
+            function deleteApplicants() {
+                $(this).parent().remove('li')
+            };
+
+            function deleteTeam() {
+                $(this).parent().remove('li')
             };
         </script>
     </body>
