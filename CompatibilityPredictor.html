@@ -7,6 +7,7 @@
     <title>Compatibility-Predictor </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
     <style type="text/css">
     </style>
 
@@ -193,9 +194,13 @@
                 </div>
             </div>
         </div>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
         <script>
+
             var applicants = [];
             var team = [];
             var counter = 0;
@@ -239,14 +244,12 @@
 
                 var teamScore = (teamIntelligenceScore + teamStrengthScore + teamEnduranceScore + teamToleranceScore) / bestPossiblePoints;
 
-
                 $("#applicants").append("<li>" + "<span>" + "Applicant's name:" + " " + applicants[counter].name + " " +
                     "</span>" + "<span>" + " " + "Applicant's score:" + applicantScore + "</span>" + "<button type='button' class='btn btn-danger' id='removeApplicant' > x </button>" + '</li>')
 
                 $("#team").append("<li>" + "<span>" + "Team member's name:" + " " + team[counter].name + " " +
                     "</span>" + "<span>" + " " + "Team member's score:" + teamScore + "</span>" + "<button type='button' class='btn btn-danger' id='removeTeam' > x </button>" + '</li>')
                 counter += 1;
-
             };
 
             function getApplicantAttributes() {
