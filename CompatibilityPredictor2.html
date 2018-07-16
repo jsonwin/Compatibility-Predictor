@@ -188,8 +188,7 @@
             <div id="displayContent" class="col-md-6">
                 <div id="displayScoreContainer">
                     <h3 class="offset-3">Score's List</h1>
-                        <ul id="applicants" class="offset-3"></ul>
-                        <ul id="team" class="offset-3"></ul>
+                        <ul id="scoreListing" class="offset-3"></ul>
                 </div>
             </div>
         </div>
@@ -203,72 +202,146 @@
                 $("#addApplicantBtn").on("click", calculateScore);
             });
 
-            function calculateScore() {
-                applicants.push(getApplicantAttributes());
-                team.push(getTeamAttributes());
-                console.log(applicants);
-                console.log(team);
-                //$('form').trigger('reset');
-
-                let bestPossiblePoints = 40;
-                let intelligenceScore = 0;
-                let strengthScore = 0;
-                let enduranceScore = 0;
-                let toleranceScore = 0;
-                for (i = 0; i < applicants.length; i++) {
-                    intelligenceScore += parseInt(applicants[i].intelligence);
-                    strengthScore += parseInt(applicants[i].strength);
-                    enduranceScore += parseInt(applicants[i].endurance);
-                    toleranceScore += parseInt(applicants[i].spicyFoodTolerance);
-                };
-                var applicantScore = (intelligenceScore + strengthScore + enduranceScore + toleranceScore) / bestPossiblePoints;
-
-                let teamIntelligenceScore = 0;
-                let teamStrengthScore = 0;
-                let teamEnduranceScore = 0;
-                let teamToleranceScore = 0;
-                for (i = 0; i < team.length; i++) {
-                    teamIntelligenceScore += parseInt(applicants[i].intelligence);
-                    teamStrengthScore += parseInt(applicants[i].strength);
-                    teamEnduranceScore += parseInt(applicants[i].endurance);
-                    teamToleranceScore += parseInt(applicants[i].spicyFoodTolerance);
-                };
-
-                var teamScore = (teamIntelligenceScore + teamStrengthScore + teamEnduranceScore + teamToleranceScore) / bestPossiblePoints;
-
-
-                $("#applicants").append("<li>" + "<span>" + "Applicant's name:" + " " + applicants[counter].name + " " +
-                    "</span>" + "<span>" + " " + "Applicant's score:" + applicantScore + "</span>" + "</li>")
-
-                $("#team").append("<li>" + "<span>" + "Team member's name:" + " " + team[counter].name + " " +
-                    "</span>" + "<span>" + " " + "Team member's score:" + teamScore + "</span>" + "</li>")
-                counter += 1;
+            let dataHouse = {
+                "team": [],
+                "applicants": []
             };
 
-            function getApplicantAttributes() {
-                var applicantsData = {
-                    name: $("#applicantInput").val(),
-                    intelligence: $("#applicantIntelligence").val(),
-                    strength: $("#applicantStrength").val(),
-                    endurance: $("#applicantEndurance").val(),
-                    spicyFoodTolerance: $("#applicantTolerance").val(),
-                    counter: counter
+            let teamMemberData = () => {
+                let name = document.getElementById("name").value;
+                let intelligence = parseInt(document.getElementById("intelligence").value);
+                let strength = parseInt(document.getElementById("strength").value);
+                let technical = parseInt(document.getElementById("technical").value);
+                let creativity = parseInt(document.getElementById("creativity").value);
+
+                teamMemberObj = {
+                    "name": name,
+                    "attributes": {
+                        "intelligence": intelligence,
+                        "strength": strength,
+                        "technical": technical,
+                        "creativity": creativity
+                    }
                 }
-                return applicantsData;
-            };
 
-            function getTeamAttributes() {
-                var teamData = {
-                    name: $("#teamInput").val(),
-                    intelligence: $("#teamIntelligence").val(),
-                    strength: $("#teamStrength").val(),
-                    endurance: $("#teamEndurance").val(),
-                    spicyFoodTolerance: $("#teamTolerance").val(),
-                    counter: counter
+                dataHouse.team.push(teamMemberObj);
+                document.getElementById("teamMember").reset();
+            }
+
+            let candidateData = () => {
+                let name = document.getElementById("applicantName").value;
+                let intelligence = parseInt(document.getElementById("candidateIntelligence").value);
+                let strength = parseInt(document.getElementById("candidateStrength").value);
+                let technical = parseInt(document.getElementById("candidateTechnical").value);
+                let creativity = parseInt(document.getElementById("candidateCreativity").value);
+
+                candidateObj = {
+                    "name": name,
+                    "attributes": {
+                        "intelligence": intelligence,
+                        "strength": strength,
+                        "technical": technical,
+                        "creativity": creativity
+                    }
                 }
-                return teamData;
-            };
 
+                dataHouse.applicants.push(candidateObj);
+                document.getElementById("candidateForm").reset();
+            }
+
+            let teamAvgFunction = () => {
+
+                let intelligenceBox = 0;
+                let strengthBox = 0;
+                let technicalBox = 0;
+                let creativityBox = 0;
+
+                let team = dataHouse.team;
+                for (let i = 0; i < team.length; i++) {
+                    intelligenceBox += team[i].attributes.intelligence;
+                    strengthBox += team[i].attributes.strength;
+                    technicalBox += team[i].attributes.technical;
+                    creativityBox += team[i].attributes.creativity;
+                }
+
+                let intelliAvg = intelligenceBox / dataHouse.team.length;
+                let strengthAvg = strengthBox / dataHouse.team.length;
+                let techAvg = technicalBox / dataHouse.team.length;
+                let creativityAvg = creativityBox / dataHouse.team.length;
+
+                teamAttrAvg = {
+                    "intelligence": intelliAvg,
+                    "strength": strengthAvg,
+                    "technical": techAvg,
+                    "creativity": creativityAvg
+                }
+                compareScoreFunction(teamAttrAvg);
+            }
+
+            let compareScoreFunction = (teamAttrAvg) => {
+                let scoredAppObj = {
+                    "scoredApplicants": []
+                }
+
+                let candidate = dataHouse.applicants;
+                for (let i = 0; i < candidate.length; i++) {
+
+                    let obj = {
+                        "name": candidate[i].name,
+                        "score": 0
+                    }
+
+                    if (candidate[i].attributes.intelligence >= teamAttrAvg.intelligence) {
+                        obj.score += 0.24;
+                    } else {
+                        obj.score += 0.12;
+                    }
+
+                    if (candidate[i].attributes.strength >= teamAttrAvg.strength) {
+                        obj.score += 0.24;
+                    } else {
+                        obj.score += 0.12;
+                    }
+
+                    if (candidate[i].attributes.technical >= teamAttrAvg.technical) {
+                        obj.score += 0.24;
+                    } else {
+                        obj.score += 0.12;
+                    }
+
+                    if (candidate[i].attributes.creativity >= teamAttrAvg.creativity) {
+                        obj.score += 0.24;
+                    } else {
+                        obj.score += 0.12;
+                    }
+
+                    scoredAppObj.scoredApplicants.push(obj);
+                }
+
+                displayApplicantScores(scoredAppObj);
+            }
+
+            let displayApplicantScores = scoredAppObj => {
+                console.log(scoredAppObj);
+                let applicant = scoredAppObj.scoredApplicants;
+                for (let i = 0; i < applicant.length; i++) {
+
+                    let div = document.createElement("div");
+                    let header = document.createElement("h4");
+                    let paragraph = document.createElement("p");
+
+                    let headerText = document.createTextNode(applicant[i].name);
+                    let paraText = document.createTextNode(applicant[i].score);
+
+                    header.appendChild(headerText);
+                    paragraph.appendChild(paraText);
+
+                    div.appendChild(header);
+                    div.appendChild(paragraph);
+
+                    document.getElementById("applicantOutput").appendChild(div);
+                }
+            }
 
 
         </script>
