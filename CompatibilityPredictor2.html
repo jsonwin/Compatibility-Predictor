@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Compatibility-Predictor </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <style type="text/css">
+    </style>
+
+    <body>
+
+        <div>
+            <h4>Team Member</h4>
+            <form id="teamMember">
+                <div>
+                    <label>Name
+                        <input type="text" id="name" />
+                </div>
+                <div>
+                    <label>Intelligence
+                        <select id="intelligence" form="teamMember">
+                            <option value="">Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                </div>
+                <div>
+                    <label>Strength
+                        <select id="strength" form="teamMember">
+                            <option value="">Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                </div>
+                <div>
+                    <label>Endurance
+                        <select id="endurance" form="teamMember">
+                            <option value="">Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                </div>
+                <div>
+                    <label>Spicy Food Tolerance
+                        <select id="tolerance" form="teamMember">
+                            <option value="">Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                </div>
+                <button type="button" onClick="teamMemberData()" id="teamSubmit">Submit</button>
+            </form>
+        </div>
+
+        <div>
+            <h4>Candidate Application</h4>
+            <form id="candidateForm">
+                <div>
+                    <label>Name
+                        <input type="text" id="applicantName" />
+                </div>
+                <div>
+                    <label>Intelligence
+                        <select id="candidateIntelligence" form="candidateForm">
+                            <option value="">Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                </div>
+                <div>
+                    <label>Strength
+                        <select id="candidateStrength" form="candidateForm">
+                            <option value="">Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                </div>
+                <div>
+                    <label>Endurance
+                        <select id="candidateEndurance" form="candidateForm">
+                            <option value="">Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                </div>
+                <div>
+                    <label>Spicy Food Tolerance
+                        <select id="candidateTolerance" form="candidateForm">
+                            <option value="">Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                </div>
+                <button type="button" id="candidateApplication" onClick="candidateData()">Submit</button>
+            </form>
+        </div>
+
+        <div>
+            <h4>Compatibility Score</h4>
+            <button type="button" onClick="teamAvgFunction()" id="displayCompatibility">Display Scores</button>
+        </div>
+
+        <div id="applicantOutput">
+
+        </div>
+
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+        <script>
+
+            let dataHouse = {
+                "team": [],
+                "applicants": []
+            };
+
+            let teamMemberData = () => {
+                let name = document.getElementById("name").value;
+                let intelligence = parseInt(document.getElementById("intelligence").value);
+                let strength = parseInt(document.getElementById("strength").value);
+                let endurance = parseInt(document.getElementById("endurance").value);
+                let tolerance = parseInt(document.getElementById("tolerance").value);
+
+                teamMemberObj = {
+                    "name": name,
+                    "attributes": {
+                        "intelligence": intelligence,
+                        "strength": strength,
+                        "endurance": endurance,
+                        "tolerance": tolerance
+                    }
+                }
+
+                dataHouse.team.push(teamMemberObj);
+                document.getElementById("teamMember").reset();
+            }
+
+            let candidateData = () => {
+                let name = document.getElementById("applicantName").value;
+                let intelligence = parseInt(document.getElementById("candidateIntelligence").value);
+                let strength = parseInt(document.getElementById("candidateStrength").value);
+                let endurance = parseInt(document.getElementById("candidateEndurance").value);
+                let tolerancec = parseInt(document.getElementById("candidateTolerance").value);
+
+                candidateObj = {
+                    "name": name,
+                    "attributes": {
+                        "intelligence": intelligence,
+                        "strength": strength,
+                        "endurance": endurance,
+                        "tolerance": tolerance
+                    }
+                }
+
+                dataHouse.applicants.push(candidateObj);
+                document.getElementById("candidateForm").reset();
+            }
+
+            let teamAvgFunction = () => {
+
+                let intelligenceBox = 0;
+                let strengthBox = 0;
+                let enduranceBox = 0;
+                let toleranceBox = 0;
+
+                let team = dataHouse.team;
+                for (let i = 0; i < team.length; i++) {
+                    intelligenceBox += team[i].attributes.intelligence;
+                    strengthBox += team[i].attributes.strength;
+                    enduranceBox += team[i].attributes.technical;
+                    toleranceBox += team[i].attributes.creativity;
+                }
+
+                let intelliAvg = intelligenceBox / dataHouse.team.length;
+                let strengthAvg = strengthBox / dataHouse.team.length;
+                let enduranceAvg = enduranceBox / dataHouse.team.length;
+                let toleranceAvg = toleranceBox / dataHouse.team.length;
+
+                teamAttrAvg = {
+                    "intelligence": intelliAvg,
+                    "strength": strengthAvg,
+                    "endurance": enduranceAvg,
+                    "tolerance": toleranceAvg
+                }
+                compareScoreFunction(teamAttrAvg);
+            }
+
+            let compareScoreFunction = teamAttrAvg => {
+                let scoredAppObj = {
+                    "scoredApplicants": []
+                }
+
+                let candidate = dataHouse.applicants;
+                for (let i = 0; i < candidate.length; i++) {
+
+                    let obj = {
+                        "name": candidate[i].name,
+                        "score": 0
+                    }
+
+                    if (candidate[i].attributes.intelligence >= teamAttrAvg.intelligence) {
+                        obj.score += 0.24;
+                    } else {
+                        obj.score += 0.12;
+                    }
+
+                    if (candidate[i].attributes.strength >= teamAttrAvg.strength) {
+                        obj.score += 0.24;
+                    } else {
+                        obj.score += 0.12;
+                    }
+
+                    if (candidate[i].attributes.endurance >= teamAttrAvg.endurance) {
+                        obj.score += 0.24;
+                    } else {
+                        obj.score += 0.12;
+                    }
+
+                    if (candidate[i].attributes.tolerance >= teamAttrAvg.tolerance) {
+                        obj.score += 0.24;
+                    } else {
+                        obj.score += 0.12;
+                    }
+
+                    scoredAppObj.scoredApplicants.push(obj);
+                }
+
+                displayApplicantScores(scoredAppObj);
+            }
+
+            let displayApplicantScores = scoredAppObj => {
+                console.log(scoredAppObj);
+                let applicant = scoredAppObj.scoredApplicants;
+                for (let i = 0; i < applicant.length; i++) {
+
+                    let div = document.createElement("div");
+                    let header = document.createElement("h4");
+                    let paragraph = document.createElement("p");
+
+                    let headerText = document.createTextNode(applicant[i].name);
+                    let paraText = document.createTextNode(applicant[i].score);
+
+                    header.appendChild(headerText);
+                    paragraph.appendChild(paraText);
+
+                    div.appendChild(header);
+                    div.appendChild(paragraph);
+
+                    document.getElementById("applicantOutput").appendChild(div);
+                }
+            }
+        </script>
+    </body>
+
+</html>
