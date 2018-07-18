@@ -23,7 +23,7 @@ Method:
 4. Let say that there are 4 different attributes, and the highest scores possible for each category is 10. 
 5. Scores from all four categories are added together and divided by the possible highest point of 40.
 6. Applicant scores will range from 0.1 to 1 
-7. Applicants whose has the scores closest to 1 will have the highst comptability. 
+7. Applicants whose has the scores closest to 1 will have the highst compatibility. 
 
 The $(document).ready() method allows us to execute a function when the document is fully loaded. 
 Jquery Selector used to select elements by Id (  $("#addApplicantBtn").on("click", calculateScore);
