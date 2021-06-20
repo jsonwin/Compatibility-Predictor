@@ -1,5 +1,4 @@
 # Compatibility-Predictor
-Take Home Assessment
 Datahouse is looking to add new members to its team. The task is to build an application that takes an input: an array of applicants and an array of team
 members, and produces an output: an array of applicants with their respective compatibility
 score. Input and Output must be in JSON andCompatibility score for each applicant should fall in a range from [0, 1]
